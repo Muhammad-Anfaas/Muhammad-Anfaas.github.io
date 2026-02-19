@@ -1,38 +1,19 @@
 +++
 date = '2026-02-18T20:20:40+05:00'
 draft = false
-title = 'First Post'
+title = 'Dual Boot'
 +++
-# Who Am I?
+# From Windows to Ubuntu: Unlocking a Developer’s Full Potential Through Dual Boot
 ---
 
-## Why This Blog Exists
+##Linux for Development
 
-I learn better when I explain things.
-
-Instead of passively consuming tutorials, I want to:
-- Document what I learn
-- Break down concepts in my own words
-- Build projects and analyze them
-- Track my growth publicly
-
-Think of this as a structured engineering notebook.
-
+Unix-based systems have long held a competitive edge over Windows when it comes to development. While WSL (Windows Subsystem for Linux) allows Windows users to tap into Linux’s power, persistent bugs and quirks can slow you down. Virtual machines like VMware are an alternative, but they often come with performance trade-offs. For developers who want reliability, speed, and full control, dual-booting Linux alongside Windows remains the ultimate solution.
+Since Linux comes in different distributions and flavors, the standout contender for developers is Ubuntu. It offers a perfect balance of efficiency, stability, and user-friendliness, making it ideal for both beginners and advanced users.
+In this blog, we will walk you through the process of installing Ubuntu alongside Windows.
 ## What You’ll Find Here
 
-I’ll be writing about:
 
-- Programming fundamentals
-- Algorithms & data structures
-- Systems concepts
-- Linux & terminal workflows
-- Tools I use (Hugo, Git, etc.)
-- Lessons from real projects
-
-Some posts will be beginner-friendly.
-Some will be deeply technical.
-
-All of them will be honest.
 
 ---
 
