@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on Anfaas&#39; Blogs</title>
+    <link>https://Muhammad-Anfaas.github.io/posts/</link>
+    <description>Recent content in Posts on Anfaas&#39; Blogs</description>
+    <generator>Hugo -- 0.156.0</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 18 Feb 2026 20:20:40 +0500</lastBuildDate>
+    <atom:link href="https://Muhammad-Anfaas.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From Windows to Ubuntu: Unlocking a Developer’s Full Potential Through Dual Boot</title>
+      <link>https://Muhammad-Anfaas.github.io/posts/first-post/</link>
+      <pubDate>Wed, 18 Feb 2026 20:20:40 +0500</pubDate>
+      <guid>https://Muhammad-Anfaas.github.io/posts/first-post/</guid>
+      <description>&lt;h2 id=&#34;linux-for-development&#34;&gt;Linux for Development&lt;/h2&gt;
+&lt;p&gt;Unix-based systems have long held a competitive edge over Windows when it comes to development. While WSL (Windows Subsystem for Linux) allows Windows users to tap into Linux’s power, persistent bugs and quirks can slow you down. Virtual machines like VMware are an alternative, but they often come with performance trade-offs. For developers who want reliability, speed, and full control, dual-booting Linux alongside Windows remains the ultimate solution.
+Since Linux comes in different distributions and flavors, the standout contender for developers is Ubuntu. It offers a perfect balance of efficiency, stability, and user-friendliness, making it ideal for both beginners and advanced users.
+In this blog, we will walk you through the process of installing Ubuntu alongside Windows.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
