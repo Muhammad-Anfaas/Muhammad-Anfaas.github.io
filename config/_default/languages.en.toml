@@ -19,7 +19,7 @@ description = "Computer Science student at FAST NUCES passionate about software 
   image = "img/profile.png"
   imageQuality = 96
   headline = "Computer Science Student | FAST NUCES"
-  bio = "Computer Science student at FAST NUCES and member of the Colab Research Lab. Passionate about software engineering, embedded systems, cloud-native technologies, and open-source software."
+  bio = "Computer Science student at FAST NUCES and member of the CoLab. Passionate about software engineering, embedded systems and open-source software."
 
   links = [
     { github = "https://github.com/Muhammad-Anfaas" },
