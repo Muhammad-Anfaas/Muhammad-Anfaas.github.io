@@ -53,5 +53,5 @@ The client-server model is the architecture used in socket programming, where a 
 The server starts up, prepares a socket (binding to an IP address and port number), and begins listening for incoming connections.\
 The client creates its own socket, connects to the server socket, and begins sending and receiving data.
 ![output](/client-server.png "Pictorial Description of Client-Server Model")
----
+
 continued...
