@@ -8,7 +8,7 @@ heroStyle: "background"
 
 showTableOfContents: true
 ---
-## Introduction to Multithreading
+# Introduction to Multithreading
 
 Multithreading is a programming technique that allows a single process (application) to be divided into multiple concurrent execution paths called threads. By sharing the same memory space and resources, these threads can execute tasks independently, drastically improving system performance, responsiveness, and hardware utilization. 
 Before moving forward first we need to know what a process and thread is in terms of computing.
