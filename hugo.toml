@@ -1,0 +1,7 @@
+baseURL = "https://Muhammad-Anfaas.github.io/"
+title = "Muhammad Anfaas"
+locale = "en-us"
+
+[module]
+  [[module.imports]]
+    path = "github.com/nunocoracao/blowfish/v2"

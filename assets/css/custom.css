@@ -1,0 +1,82 @@
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+
+body:has(main > article):not(:has(#background-image)) {
+    background: url("/img/homepage-bg.jpg") center center / cover fixed no-repeat;
+}
+
+body:has(main > article):not(:has(#background-image))::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: inherit;
+    filter: blur(5px);
+    transform: scale(1.05);
+    z-index: -2;
+}
+
+body:has(main > article):not(:has(#background-image))::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.20);
+    z-index: -1;
+}
+
+
+/* =========================================================
+   POSTS LIST (/posts/)
+   ========================================================= */
+
+body:has(.article-link--card) {
+    background: url("/img/homepage-bg.jpg") center center / cover fixed no-repeat;
+}
+
+body:has(.article-link--card)::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: inherit;
+    filter: blur(14px);
+    transform: scale(1.08);
+    z-index: -2;
+}
+
+body:has(.article-link--card)::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: -1;
+}
+
+
+/* =========================================================
+   SINGLE POSTS
+   Leave the featured image hero intact.
+   Only make the blur stronger.
+   ========================================================= */
+
+#background-blur{
+    backdrop-filter: blur(22px) !important;
+    -webkit-backdrop-filter: blur(22px) !important;
+}
+
+
+/* Darken hero slightly */
+
+.single_hero_background::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.25);
+    pointer-events:none;
+}
+
+
+/* Smooth blur transition */
+
+#background-blur{
+    transition:opacity .35s ease;
+}

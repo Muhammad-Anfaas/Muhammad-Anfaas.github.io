@@ -1,0 +1,11 @@
+# -- Main Menu --
+
+[[main]]
+  name = "Home"
+  pageRef = "/"
+  weight = 10
+
+[[main]]
+  name = "Blogs"
+  pageRef = "posts"
+  weight = 20
