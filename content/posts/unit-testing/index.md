@@ -2,6 +2,7 @@
 title: "Unit Testing with pytest"
 date: 2026-10-13
 draft: false
+featureimage: "unit-feature.jpeg"
 
 ---
 
