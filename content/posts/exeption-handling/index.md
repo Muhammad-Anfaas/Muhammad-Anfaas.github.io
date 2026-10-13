@@ -2,7 +2,7 @@
 title: "Introduction to Exception Handling in C++"
 date: 2026-10-13
 draft: false
-tags: ["cpp", "exception-handling", "error-handling"]
+
 ---
 
 # Introduction to Exception Handling in C++
