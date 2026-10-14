@@ -1,7 +1,7 @@
 ---
 title: "Unit Testing with pytest"
 date: 2026-10-13
-draft: false
+draft: true
 featureimage: "unit-feature.png"
 heroStyle: "background"
 showTableOfContents: true

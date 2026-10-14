@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Exception Handling in C++"
 date: 2026-10-13
-draft: false
+draft: true
 featureimage: "handling-feature.png"
 heroStyle: "background"
 showTableOfContents: true
