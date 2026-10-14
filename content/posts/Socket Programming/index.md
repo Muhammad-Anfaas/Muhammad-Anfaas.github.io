@@ -135,7 +135,7 @@ Now open another terminal and run the client:
 
 As soon as the client runs, you'll see the received string printed. Back in the server window, you'll see something like this:
 
-![Server output](/server12.png)
+![Server output](/server2.png)
 
 The server prints the address tuple returned by `.accept()`, which contains the client's IP address and TCP port number. The port number will differ from machine to machine.
 
