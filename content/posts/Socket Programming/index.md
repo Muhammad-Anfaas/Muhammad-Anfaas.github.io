@@ -1,5 +1,5 @@
 ---
-date: '2026-09-16'
+date: '2026-10-16'
 draft: false
 title: 'Socket Programming: Foundation of Network Communication'
 featureimage: "socket-feature.png"
