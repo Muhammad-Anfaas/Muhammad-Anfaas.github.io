@@ -8,13 +8,13 @@ showTableOfContents: true
 
 ---
 
-# Introduction to Unit Testing with pytest
+# Unit Testing with pytest
 
-Unit testing is the practice of writing small, automated checks that verify individual pieces of your code (functions, methods, classes) work as expected. Instead of running your program by hand and eyeballing the output, you write tests once and run them in seconds, every time you change something. This catches bugs early, makes refactoring safe, and acts as living documentation of how your code is supposed to behave.
+Unit testing is the practice of writing small, automated checks that verify individual pieces of your code (functions, methods, classes) work as expected. Instead of running our program by hand and eyeballing the output, you write tests once and run them in seconds, every time you change something. This catches bugs early, makes refactoring safe, and acts as living documentation of how your code is supposed to behave.
 
 Before moving forward, we first need to understand what a unit test is and what makes a good one.
 
-## What is a Unit Test?
+## Unit Test?
 A **unit** is the smallest testable piece of a program, usually a single function or method. A **unit test** calls that unit with some input and checks that the output (or behavior) matches what you expect.
 
 A good unit test is:
