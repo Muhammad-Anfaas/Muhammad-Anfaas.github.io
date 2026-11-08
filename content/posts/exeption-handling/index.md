@@ -29,10 +29,10 @@ Exceptions solve these problems by separating the normal path from the error pat
 
 Consider the diagram below to understand how an exception travels through the call stack:
 
-![output](/exception-flow.png)
+![output](/call_stack.png)
 
-## The Three Keywords: try, throw, catch
-C++ exception handling is built on three keywords:
+## try, throw, catch
+C++ exception handling is built upon three keywords:
 
 - `try`: marks a block of code that might throw an exception
 - `throw`: signals that an error has occurred and sends an exception object
@@ -41,7 +41,6 @@ C++ exception handling is built on three keywords:
 Let's look at a basic example:
 
 ```cpp
-// Example of Basic Exception Handling
 #include <iostream>
 #include <stdexcept>
 using namespace std;
@@ -69,11 +68,9 @@ int main() {
 ```
 
 **Output:**
-```
-5
-Error: Division by zero!
-Program continues normally
-```
+
+![output](/output_1.png)
+
 
 The first call succeeds. The second call throws, so execution leaves the `try` block immediately (the "never runs" line is skipped) and jumps to the matching `catch` block. After the handler finishes, the program continues normally.
 
@@ -81,7 +78,7 @@ The first call succeeds. The second call throws, so execution leaves the `try` b
 
 ---
 
-## What Happens Without a Handler?
+## What Happens When we Don't use a Handler?
 If an exception is thrown and nothing catches it, the program calls `std::terminate()` and ends abruptly:
 
 ```cpp
@@ -90,22 +87,18 @@ If an exception is thrown and nothing catches it, the program calls `std::termin
 using namespace std;
 
 int main() {
-    cout << "Before" << endl;
-    throw runtime_error("Nobody catches me");
-    cout << "After" << endl;
+    cout << "Before Exception" << endl;
+    throw runtime_error("Nobody will ever catches me");
+    cout << "After Exception" << endl;
     return 0;
 }
 ```
 
-**Output (GCC):**
-```
-Before
-terminate called after throwing an instance of 'std::runtime_error'
-  what():  Nobody catches me
-Aborted
-```
+**Output**
+![output](/output_2.png)
 
-This is exactly the kind of crash exception handling is meant to prevent.
+
+This is exactly the kind of crash exception handling is meant to prevent as crashing of our code is way more better than simply executing wrongfully.
 
 ---
 
@@ -128,6 +121,11 @@ void parse(const string& text) {
     }
     catch (const out_of_range& e) {
         cout << "Number too large: " << text << endl;
+
+    catch (const exception& e)
+    {
+        cout<<"general error:"<<endl;
+    }
     }
 }
 
@@ -140,20 +138,16 @@ int main() {
 ```
 
 **Output:**
-```
-Parsed: 42
-Invalid number: abc
-Number too large: 99999999999
-```
+![output](/output_3.png)
 
-`stoi` throws `std::invalid_argument` when the text isn't a number, and `std::out_of_range` when the value doesn't fit in an `int`.
+`stoi` throws `std::invalid_argument` when the text isn't a number, and `std::out_of_range` when the value doesn't fit in an `int` and the general exception doesnt run.
 
 ### Catch-All Handler
-To catch any exception regardless of its type, use `...`:
+To catch any exception regardless of its type, C++ gives us the leverage to use : `...`:
 
 ```cpp
 try {
-    // risky code
+    // some risky code
 }
 catch (const exception& e) {
     cout << "Standard exception: " << e.what() << endl;
@@ -163,10 +157,10 @@ catch (...) {
 }
 ```
 
-Put `catch (...)` last, since it matches everything. Note that it gives you no access to the exception object.
+One should always put `catch (...)` last, since it matches with everything. Moreover, it doesnot it gives you no access to the exception object.
 
-### Order Matters
-Because the first matching handler wins, always list **derived** types before their **base** types. This is wrong:
+### Order in Writing Catches
+Order Matches because the first matching handler wins, always list **derived** types before their **base** types. This is wrong:
 
 ```cpp
 try {
@@ -180,53 +174,13 @@ catch (const out_of_range& e) {       // never reached
 }
 ```
 
-The specific handler is unreachable here. Put `out_of_range` first and `exception` after it.
+The specific handler is unreachable here. we sould put `out_of_range` first and `exception` after it in the code.
 
 ---
 
-## Standard Exceptions
+## Standard Exceptions 
 The C++ standard library provides a hierarchy of exception classes in `<stdexcept>` and `<exception>`, all derived from `std::exception`. Every one of them has a `what()` method that returns a description of the error.
-
-| Exception | Typical cause |
-|---|---|
-| `std::invalid_argument` | A function received an argument it can't use (e.g. `stoi("abc")`) |
-| `std::out_of_range` | An index or value outside the valid range (e.g. `vector::at`) |
-| `std::length_error` | Trying to create an object that is too large |
-| `std::runtime_error` | A general error detected only at runtime |
-| `std::overflow_error` | An arithmetic overflow |
-| `std::bad_alloc` | Memory allocation with `new` failed |
-| `std::bad_cast` | A failed `dynamic_cast` on references |
-
-Here is an example with `vector::at()`, which checks bounds, unlike the `[]` operator:
-
-```cpp
-#include <iostream>
-#include <vector>
-#include <stdexcept>
-using namespace std;
-
-int main() {
-    vector<int> numbers = {10, 20, 30};
-
-    try {
-        cout << numbers.at(1) << endl;
-        cout << numbers.at(10) << endl;
-    }
-    catch (const out_of_range& e) {
-        cout << "Caught: " << e.what() << endl;
-    }
-
-    return 0;
-}
-```
-
-**Output (GCC):**
-```
-20
-Caught: vector::_M_range_check: __n (which is 10) >= this->size() (which is 3)
-```
-
-The exact text returned by `what()` depends on your compiler, so never write code that depends on its precise wording.
+![output](/output_4.png)
 
 ---
 
