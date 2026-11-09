@@ -327,7 +327,8 @@ int main() {
 ```
 
 **Output:**
-[output](/output.png)
+
+![output](/output.png)
 
 Notice that "File released" prints **before** the handler runs. The destructor was called during unwinding, so no cleanup code was needed in the `catch` block. This is why modern C++ prefers `std::unique_ptr`, `std::vector`, `std::fstream` and similar RAII types over manual `new`/`delete` and `fopen`/`fclose`.
 
