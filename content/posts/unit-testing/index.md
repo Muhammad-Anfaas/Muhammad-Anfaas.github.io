@@ -105,14 +105,11 @@ def test_divide():
     assert divide(10, 2) == 5
 ```
 
-Now,Run all tests from the project folder:
+Now,Run all tests from the project folder by running **pytest** command we would get the following output:
 
-```bash
-pytest
-```
 
 **Output:**
-!(/1.png)
+![output](/1.png)
 
 Each dot here represents  one passing test.
 
@@ -125,7 +122,7 @@ def test_add():
 ```
 
 pytest shows exactly what went wrong:
-!(/2.png)
+![output](/2.png)
 
 It shows the failing line, the actual value (`5`), and the expected value (`6`), so we rarely need a debugger to troubleshoot our problem.
 
