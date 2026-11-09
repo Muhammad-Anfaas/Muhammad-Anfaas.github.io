@@ -1,6 +1,6 @@
 ---
 title: "Unit Testing with pytest"
-date: 2026-10-13
+date: 2026-10-24
 draft: false
 featureimage: "unit-feature.png"
 heroStyle: "background"
@@ -10,7 +10,7 @@ showTableOfContents: true
 
 # Unit Testing with pytest
 
-Unit testing is the practice of writing small, automated checks that verify individual pieces of your code (functions, methods, classes) work as expected. Instead of running our program by hand and eyeballing the output, you write tests once and run them in seconds, every time you change something. This catches bugs early, makes refactoring safe, and acts as living documentation of how your code is supposed to behave.
+Unit testing is the practice of writing small, automated checks that verify individual pieces of your code (functions, methods, classes) work as expected. Instead of running our program by hand and eyeballing the output, you write tests once and run them in seconds, every time we change something. This catches bugs early, makes refactoring safe, and acts as living documentation of how your code is supposed to behave.
 
 Before moving forward, we first need to understand what a unit test is and what makes a good one.
 
@@ -24,8 +24,8 @@ A good unit test is:
 - **Repeatable**: it gives the same result every time
 - **Focused**: it checks one behavior, so a failure points to one problem
 
-## The Arrange-Act-Assert Pattern
-Most tests follow three steps:
+## The 3A Pattern
+Most tests follow these three steps:
 
 1. **Arrange**: set up the data and objects you need
 2. **Act**: call the code you want to test
@@ -34,12 +34,12 @@ Most tests follow three steps:
 Keeping this structure makes tests easy to read and easy to write.
 
 ## Why pytest?
-Python ships with a built-in `unittest` module, but **pytest** is the most popular choice because it needs far less boilerplate. You write plain functions and use the normal `assert` statement. It also gives detailed failure messages, powerful fixtures, and a large plugin ecosystem.
+Python ships with a built-in `unittest` module, but **pytest** is the most popular choice because it needs far less boilerplate.We write plain functions and use the normal `assert` statement. It also gives detailed failure messages, powerful fixtures, and a large plugin ecosystem.
 
 ---
 
 ## Getting Started
-Install pytest with pip:
+Install pytest with pip, i'll be doing it inside a virtual env:
 
 ```bash
 pip install pytest
@@ -57,7 +57,7 @@ pytest finds tests automatically using naming conventions:
 - Test functions start with `test_`
 - Test classes start with `Test` (and have no `__init__` method)
 
-A simple project layout looks like this:
+A simple project layout looks something like this:
 
 ```
 my_project/
@@ -67,11 +67,10 @@ my_project/
 
 ---
 
-## Writing Your First Test
+## Writing our Initial Test
 Let's start with a small module to test:
 
 ```python
-# calculator.py
 
 def add(a, b):
     return a + b
@@ -91,7 +90,6 @@ def divide(a, b):
 Now the tests:
 
 ```python
-# test_calculator.py
 from calculator import add, subtract, multiply, divide
 
 def test_add():
@@ -107,25 +105,18 @@ def test_divide():
     assert divide(10, 2) == 5
 ```
 
-Run all tests from the project folder:
+Now,Run all tests from the project folder:
 
 ```bash
 pytest
 ```
 
 **Output:**
-```
-============================= test session starts ==============================
-collected 4 items
+!(/1.png)
 
-test_calculator.py ....                                                  [100%]
+Each dot here represents  one passing test.
 
-============================== 4 passed in 0.01s ===============================
-```
-
-Each dot is one passing test. That's all it takes to get started: plain functions and plain `assert`.
-
-### What a Failure Looks Like
+### Failing a Test
 Suppose we accidentally wrote the wrong expected value:
 
 ```python
@@ -134,26 +125,14 @@ def test_add():
 ```
 
 pytest shows exactly what went wrong:
+!(/2.png)
 
-```
-================================== FAILURES ===================================
-__________________________________ test_add ___________________________________
-
-    def test_add():
->       assert add(2, 3) == 6
-E       assert 5 == 6
-E        +  where 5 = add(2, 3)
-
-test_calculator.py:4: AssertionError
-========================= 1 failed, 3 passed in 0.02s =========================
-```
-
-It shows the failing line, the actual value (`5`), and the expected value (`6`), so you rarely need a debugger to find the problem.
+It shows the failing line, the actual value (`5`), and the expected value (`6`), so we rarely need a debugger to troubleshoot our problem.
 
 ---
 
 ## Assertions
-pytest uses the standard `assert` keyword, but it rewrites assertions behind the scenes to give rich failure details. Here are some common patterns:
+pytest uses the standard `assert` keyword, but it rewrites assertions behind the scenes to give rich failure details. Here are some common patterns that follow:
 
 ```python
 def test_assertion_examples():
@@ -166,7 +145,7 @@ def test_assertion_examples():
 ```
 
 ### Comparing Floats
-Floating-point numbers can't be compared exactly, because `0.1 + 0.2` is actually `0.30000000000000004`. Use `pytest.approx` instead:
+Conentionaly floating-point numbers can't be compared exactly, because `0.1 + 0.2` is actually `0.30000000000000004` but we can use `pytest.approx` instead to compare them in an appropriate manner:
 
 ```python
 import pytest
@@ -178,7 +157,7 @@ def test_float_addition():
 ---
 
 ## Testing for Exceptions
-Good tests also check that code fails correctly. Use `pytest.raises` as a context manager to confirm an exception is raised:
+Good testing practice also check that code fails correctly. We can use `pytest.raises` here as a context manager to confirm an exception is raised:
 
 ```python
 import pytest
@@ -346,73 +325,6 @@ def test_describe_weather_cold(mock_get):
 > **Note:** Patch the name **where it is used**, not where it is defined. Here, `describe_weather` looks up `get_temperature` inside the `weather` module, so we patch `"weather.get_temperature"`.
 
 ---
-
-## Skipping and Expected Failures
-pytest markers let you control which tests run:
-
-```python
-import sys
-import pytest
-
-@pytest.mark.skip(reason="Feature not implemented yet")
-def test_future_feature():
-    ...
-
-@pytest.mark.skipif(sys.platform == "win32", reason="Does not run on Windows")
-def test_unix_only():
-    ...
-
-@pytest.mark.xfail(reason="Known bug, fix in progress")
-def test_known_bug():
-    assert 1 + 1 == 3
-```
-
-- `skip` never runs the test
-- `skipif` skips it only when a condition is true
-- `xfail` runs it but expects it to fail, so it doesn't break your test run
-
----
-
-## Useful Command-Line Options
-
-| Command | What it does |
-|---|---|
-| `pytest` | Run all tests in the current folder and subfolders |
-| `pytest -v` | Verbose output, showing each test name |
-| `pytest test_bank.py` | Run one file |
-| `pytest test_bank.py::test_deposit` | Run a single test |
-| `pytest -k "withdraw"` | Run only tests whose name contains "withdraw" |
-| `pytest -x` | Stop after the first failure |
-| `pytest --lf` | Re-run only the tests that failed last time |
-| `pytest -s` | Show `print()` output, which pytest hides by default |
-
-To measure how much of your code the tests cover, install the `pytest-cov` plugin and run `pytest --cov`.
-
----
-
-## Best Practices
-- **Test one behavior per test**, and give the test a name that describes it, like `test_withdraw_insufficient_funds`.
-- **Follow Arrange-Act-Assert** so every test reads the same way.
-- **Keep tests independent.** One test should never rely on another having run first.
-- **Test edge cases**, not just the happy path: empty input, zero, negative numbers, very large values, wrong types.
-- **Test failures too**, using `pytest.raises` to confirm errors are raised when they should be.
-- **Mock external dependencies** like networks, databases, and the clock, so tests stay fast and reliable.
-- **Run tests often**, ideally automatically on every push using a CI service such as GitHub Actions.
-- **Don't chase 100% coverage.** Coverage shows what code ran, not whether your assertions are meaningful.
-
----
-
-## Conclusion
-In this post we covered:
-
-- What a **unit test** is and the qualities of a good one
-- The **Arrange-Act-Assert** pattern
-- Installing pytest and how it **discovers** tests by naming convention
-- Writing tests with plain `assert`, and using `pytest.approx` for floats
-- Testing errors with `pytest.raises`
-- Running many inputs through one test with **parametrize**
-- Reusing setup code with **fixtures** and `conftest.py`
-- Isolating code from external services using **mocks**
-- **Markers** like `skip`, `skipif` and `xfail`, and handy command-line options
+# Conclusion
 
 Writing tests may feel like extra work at first, but it pays for itself quickly: you can change your code with confidence, catch bugs before your users do, and know right away when something breaks.
