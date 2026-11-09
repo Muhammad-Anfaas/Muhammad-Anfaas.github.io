@@ -126,9 +126,7 @@ pytest shows exactly what went wrong:
 
 It shows the failing line, the actual value (`5`), and the expected value (`6`), so we rarely need a debugger to troubleshoot our problem.
 
----
-
-## Assertions
+### Assertions
 pytest uses the standard `assert` keyword, but it rewrites assertions behind the scenes to give rich failure details. Here are some common patterns that follow:
 
 ```python
@@ -170,11 +168,18 @@ def test_divide_by_zero_message():
 ```
 
 The test passes only if the exception is raised inside the `with` block. If no exception occurs, or a different type is raised, the test fails. The optional `match` argument checks the error message against a regular expression.
+In this case it would pass both and give an output like this:
+
+![output](/3.png)
+
+However, if we slightly tweak our code, to not raise the expected exception we would get an output indicating it:
+
+![output](/4.png)
 
 ---
 
 ## Parametrized Tests
-Often you want to run the same test with many inputs. Copy-pasting test functions is tedious, so use `@pytest.mark.parametrize`:
+Often times we want to run the same test with many inputs. Copy-pasting test functions is tedious, so we can use `@pytest.mark.parametrize`:
 
 ```python
 import pytest
@@ -189,94 +194,13 @@ from calculator import add
 def test_add(a, b, expected):
     assert add(a, b) == expected
 ```
-
-Run it with the `-v` (verbose) flag:
-
-```bash
-pytest -v
-```
-
-**Output:**
-```
-test_calculator.py::test_add[2-3-5] PASSED
-test_calculator.py::test_add[-1-1-0] PASSED
-test_calculator.py::test_add[0-0-0] PASSED
-test_calculator.py::test_add[10--4-6] PASSED
-```
-
-One function becomes four independent tests. If one case fails, pytest reports exactly which inputs caused it, and the others still run.
+Hence single function becomes four independent tests. If one case fails, pytest reports exactly which inputs caused it, and the others still run.
+![output](/5.png)*Paramerized Tests Results*
 
 ---
-
-## Fixtures
-Many tests need the same setup, like creating an object or preparing some data. A **fixture** is a reusable piece of setup code that pytest passes into your tests automatically.
-
-First, a class to test:
-
-```python
-# bank.py
-
-class BankAccount:
-    def __init__(self, balance=0):
-        self.balance = balance
-
-    def deposit(self, amount):
-        if amount <= 0:
-            raise ValueError("Deposit must be positive")
-        self.balance += amount
-
-    def withdraw(self, amount):
-        if amount > self.balance:
-            raise ValueError("Insufficient funds")
-        self.balance -= amount
-```
-
-Now the tests, using a fixture:
-
-```python
-# test_bank.py
-import pytest
-from bank import BankAccount
-
-@pytest.fixture
-def account():
-    return BankAccount(balance=100)
-
-def test_deposit(account):
-    account.deposit(50)
-    assert account.balance == 150
-
-def test_withdraw(account):
-    account.withdraw(30)
-    assert account.balance == 70
-
-def test_withdraw_insufficient_funds(account):
-    with pytest.raises(ValueError, match="Insufficient funds"):
-        account.withdraw(500)
-```
-
-Any test that lists `account` as a parameter receives a **fresh** `BankAccount` with a balance of 100. Because each test gets its own object, tests can't affect each other, which keeps them isolated.
-
-### Setup and Teardown with yield
-If a fixture needs to clean up afterwards (closing a file, removing a temp record), use `yield`. Everything after the `yield` runs once the test finishes, even if it failed:
-
-```python
-@pytest.fixture
-def database_connection():
-    conn = open_connection()     # setup
-    yield conn                   # the test runs here
-    conn.close()                 # teardown
-```
-
-### Sharing Fixtures with conftest.py
-Fixtures placed in a file named `conftest.py` are automatically available to every test in that folder and its subfolders, with no imports needed. This is the right place for fixtures used across several test files.
-
-pytest also ships with useful built-in fixtures, such as `tmp_path` (a temporary directory for file tests) and `monkeypatch` (temporarily changing variables or environment settings).
-
----
-
 ## Isolating Code with Mocks
-A unit test should test **your** code, not the internet. If a function calls an external API, the test would be slow and could fail for reasons unrelated to your logic. The solution is to replace the external call with a **mock**.
+Sometime while testing a block of code a function calls an external API, this can cause our  test to  slow down and fail for reasons unrelated.A simple solution to  it is to replace the external call with a **mock**.
+Like in the following black of code;
 
 ```python
 # weather.py
@@ -296,7 +220,7 @@ def describe_weather(city):
     return "Cold"
 ```
 
-We want to test the logic in `describe_weather` without making a real network call. Python's built-in `unittest.mock` works perfectly with pytest:
+Now, we only want to test the logic in `describe_weather` without making a real network call. Python's built-in `unittest.mock` works perfectly with pytest:
 
 ```python
 # test_weather.py
@@ -316,10 +240,12 @@ def test_describe_weather_cold(mock_get):
 
     assert weather.describe_weather("Oslo") == "Cold"
 ```
+So, we get our desired results:
+![output](/7.png)*code output*
 
 `@patch("weather.get_temperature")` replaces the real function with a fake one for the duration of the test, and `return_value` controls what it returns. The test is now instant and never touches the network. (This example needs `pip install requests` because `weather.py` imports it.)
 
-> **Note:** Patch the name **where it is used**, not where it is defined. Here, `describe_weather` looks up `get_temperature` inside the `weather` module, so we patch `"weather.get_temperature"`.
+> **Note:** We Patch the name **where it is used**, not where it is defined. Here, `describe_weather` looks up `get_temperature` inside the `weather` module, so we patch `"weather.get_temperature"`.
 
 ---
 # Conclusion
