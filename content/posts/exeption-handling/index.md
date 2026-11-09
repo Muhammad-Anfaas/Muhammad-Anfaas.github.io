@@ -185,7 +185,7 @@ The C++ standard library provides a hierarchy of exception classes in `<stdexcep
 ---
 
 ## Creating Custom Exceptions
-For errors specific to your application, define your own exception class. The usual approach is to inherit from `std::runtime_error` (or `std::exception`), which gives you `what()` for free and lets your exception be caught by standard handlers too.
+For errors specific to our application,we can  define our own exception class. The usual approach is to inherit from `std::runtime_error` (or `std::exception`), which gives us `what()` function and similar other useful functions for free and lets our exception t0 be caught by standard handlers too.
 
 ```cpp
 #include <iostream>
@@ -237,13 +237,7 @@ int main() {
 ```
 
 **Output:**
-```
-Withdrew 200, remaining: 300
-Insufficient funds: balance 300.000000, requested 800.000000
-You are short by 500
-```
-
-Custom exceptions can carry extra data (like `shortfall()`), so the handler gets more than just a message.
+![output](/output_5.png)
 
 ---
 
@@ -277,17 +271,24 @@ int main() {
 ```
 
 **Output:**
-```
-Logging: Disk read failed
-Handled in main: Disk read failed
-```
+![output](/output_6.png)
 
-Use `throw;` rather than `throw e;`. The second form throws a *copy* of the caught object and can slice a derived exception down to its base type.
+We use a use a `throw;` rather than `throw e;`. The second form throws a *copy* of the caught object and can slice a derived exception down to its base type.
 
 ---
 
 ## Stack Unwinding and RAII
-When an exception is thrown, C++ performs **stack unwinding**: it exits each function on the way to the handler and calls the destructors of all local objects. This is what makes the **RAII** (Resource Acquisition Is Initialization) idiom so powerful: if a resource is owned by an object, its destructor releases it automatically, even when an exception occurs.
+RAII (Resource Acquisition Is Initialization) is a C++ programming design pattern that binds the life cycle of a resource (such as heap memory, file handles, network sockets, or mutex locks) to the lifetime of an object.
+It has 3 Core Principles
+- **Acquisition in Constructor**: A resource is allocated or acquired inside a class constructor when the object is created.
+- **Release in Destructor**: The resource is automatically released inside the class destructor when the object goes out of scope.
+- **Deterministic Cleanup**: Because C++ guarantees that destructors run when an object's scope ends—even if an exception is thrown—RAII eliminates resource leaks without needing a garbage collector.
+When an exception is thrown, C++ performs **stack unwinding**: it exits each function on the way to the handler and calls the destructors of all local objects. Hence due to **RAII**if a resource is owned by an object, its destructor releases it automatically when an exception occurs.
+
+![output](/stackunwinding.png)*Stack Unwinding example in Cpp*
+
+Example Code:
+
 
 ```cpp
 #include <iostream>
@@ -326,12 +327,7 @@ int main() {
 ```
 
 **Output:**
-```
-File acquired
-Doing work...
-File released
-Caught: Something went wrong
-```
+![output](/output_7.png)
 
 Notice that "File released" prints **before** the handler runs. The destructor was called during unwinding, so no cleanup code was needed in the `catch` block. This is why modern C++ prefers `std::unique_ptr`, `std::vector`, `std::fstream` and similar RAII types over manual `new`/`delete` and `fopen`/`fclose`.
 
@@ -351,26 +347,11 @@ If a `noexcept` function does throw, the program calls `std::terminate()` immedi
 ---
 
 ## Best Practices
-- **Throw by value, catch by const reference.** `throw MyError(...)` and `catch (const MyError& e)`.
-- **Throw exceptions for exceptional situations**, not for normal control flow like ending a loop.
-- **Prefer standard exception types**, and derive from `std::exception` when you need your own.
-- **Use RAII** so cleanup happens automatically instead of relying on `catch` blocks.
-- **Never throw from a destructor.**
-- **Catch only what you can handle.** If you can't fix the problem, let it propagate to someone who can.
-- **Don't swallow exceptions** with an empty `catch` block. At minimum, log them.
-
----
-
-## Conclusion
-In this post we covered:
-
-- What an **exception** is, and why it beats error codes
-- The `try`, `throw` and `catch` keywords, and what happens when nothing catches an exception
-- Handling several exception types, the catch-all handler, and why handler order matters
-- The **standard exception hierarchy** and the `what()` method
-- Writing **custom exceptions** that carry extra information
-- **Rethrowing** with `throw;`
-- **Stack unwinding and RAII** for automatic cleanup
-- The `noexcept` specifier and best practices
-
-Used well, exception handling keeps your normal logic clean, makes errors impossible to ignore, and keeps your programs stable when something unexpected goes wrong.
+In conclusion to all this, these are some of the good practices to follow :
+- **Throw by Value, Catch by Const Reference**: Use throw MyError(...) and catch (const MyError& e) to avoid unnecessary copying.
+- **Use Exceptions for Exceptional Situations**: Don't use exceptions for normal control flow, such as terminating loops.
+- **Prefer Standard Exception Types**: Use standard exceptions or derive custom exceptions from std::exception.
+- **Use RAII**: Manage resources automatically through object lifetimes instead of manual cleanup.
+- **Never Throw from Destructors**: Throwing exceptions from destructors can cause program termination.
+- **Catch Only What You Can Handle**: Let unhandled exceptions propagate to functions capable of resolving them.
+- **Never Swallow Exceptions**: Avoid empty catch blocks; handle, log, or rethrow exceptions.
