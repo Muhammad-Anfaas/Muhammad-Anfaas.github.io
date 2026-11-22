@@ -1,4 +1,6 @@
-
+---
+---
+title: "Multi-Threading"
 date: '2026-08-04T09:32:27+05:00'
 draft: true
 title: 'Multi Threading'
@@ -60,7 +62,7 @@ print(f"Time taken: {time.perf_counter() - start:.2f} seconds")
 ```
 
 **Output:**
-![output](/illustration2.png)
+![output](/no-thread.png)
 
 Every function runs one after another, so the program waits for `square()` to finish its 1 second sleep before `cube()` can even start. Total time: about 2 seconds.
 
@@ -117,7 +119,7 @@ print(f"Time taken: {time.perf_counter() - start:.2f} seconds")
 ```
 
 **Output:**
-![output](/illustration2.png)
+![output](/thread1.png)
 
 Both threads sleep at the same time, so the total time drops from 2 seconds to about 1. Without the `join()` calls, `say_bye()` could print before the threads finish, because the main thread doesn't wait on its own.
 
@@ -155,7 +157,7 @@ end = time.perf_counter()
 print("All tasks completed")
 print(f"Time taken: {end - start:.2f} seconds")
 ```
-![output](/illustration2.png)
+![output](/multi-threads.png)
 
 All five tasks finish in about 1 second instead of 5. The order of the printed lines may change from run to run, because the operating system decides which thread runs when.
 
@@ -253,7 +255,7 @@ print(results)
 ```
 
 **Output:**
-![output](/illustration2.png)
+![output](pool.png)
 
 `executor.map()` runs the function on each item in parallel threads and returns the results in the original order. The `with` block waits for all threads to finish, so no manual `join()` is needed.
 
