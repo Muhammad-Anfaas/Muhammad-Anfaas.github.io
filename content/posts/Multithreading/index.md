@@ -1,4 +1,4 @@
----
+<img width="625" height="347" alt="image" src="https://github.com/user-attachments/assets/4c33ebde-85d7-4a64-bd73-deb11da7e1cb" />---
 date: '2026-08-04T09:32:27+05:00'
 draft: true
 title: 'Multi Threading'
@@ -60,13 +60,7 @@ print(f"Time taken: {time.perf_counter() - start:.2f} seconds")
 ```
 
 **Output:**
-```
-Hello!
-Square: 16
-Cube: 64
-Bye!
-Time taken: 2.00 seconds
-```
+![output](/illustration2.png)
 
 Every function runs one after another, so the program waits for `square()` to finish its 1 second sleep before `cube()` can even start. Total time: about 2 seconds.
 
@@ -123,13 +117,7 @@ print(f"Time taken: {time.perf_counter() - start:.2f} seconds")
 ```
 
 **Output:**
-```
-Hello!
-Square: 16
-Cube: 64
-Bye!
-Time taken: 1.00 seconds
-```
+![output](/illustration2.png)
 
 Both threads sleep at the same time, so the total time drops from 2 seconds to about 1. Without the `join()` calls, `say_bye()` could print before the threads finish, because the main thread doesn't wait on its own.
 
@@ -141,6 +129,7 @@ Both threads sleep at the same time, so the total time drops from 2 seconds to a
 When you have more than a couple of tasks, create the threads in a loop:
 
 ```python
+
 import threading
 import time
 
@@ -151,6 +140,8 @@ def worker(task_id):
 
 threads = []
 
+start = time.perf_counter()
+
 for i in range(5):
     t = threading.Thread(target=worker, args=(i,))
     threads.append(t)
@@ -159,8 +150,12 @@ for i in range(5):
 for t in threads:
     t.join()
 
+end = time.perf_counter()
+
 print("All tasks completed")
+print(f"Time taken: {end - start:.2f} seconds")
 ```
+![output](/illustration2.png)
 
 All five tasks finish in about 1 second instead of 5. The order of the printed lines may change from run to run, because the operating system decides which thread runs when.
 
@@ -189,7 +184,7 @@ for t in threads:
 print(f"Final counter: {counter}")
 ```
 
-You would expect `500000`, but the result can come out lower and change between runs. That's because `counter += 1` is really three steps (read, add, write), and two threads can read the same old value before either writes the new one.
+We would expect `500000`, but the result can come out lower and change between runs. That's because `counter += 1` is really three steps (read, add, write), and two threads can read the same old value before either writes the new one.
 
 The fix is a **Lock**, which lets only one thread at a time run a protected section:
 
@@ -258,9 +253,7 @@ print(results)
 ```
 
 **Output:**
-```
-[1, 4, 9, 16, 25]
-```
+![output](/illustration2.png)
 
 `executor.map()` runs the function on each item in parallel threads and returns the results in the original order. The `with` block waits for all threads to finish, so no manual `join()` is needed.
 
