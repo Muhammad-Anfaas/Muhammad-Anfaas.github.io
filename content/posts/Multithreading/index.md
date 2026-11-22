@@ -1,15 +1,13 @@
-
 ---
 title: "Multi-Threading"
 date: '2026-08-04T09:32:27+05:00'
 draft: true
 title: 'Multi Threading'
 featureimage: "multithreading-feature.png"
-
 heroStyle: "background"
-
 showTableOfContents: true
 ---
+
 
 # Introduction to Multithreading
 
