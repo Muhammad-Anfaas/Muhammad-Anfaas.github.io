@@ -2,7 +2,7 @@
 title: "Multi-Threading"
 date: 2026-11-22
 draft: false
-featureimage: "multithreading-feature.png"
+featureimage: "multi.png"
 heroStyle: "background"
 showTableOfContents: true
 ---
