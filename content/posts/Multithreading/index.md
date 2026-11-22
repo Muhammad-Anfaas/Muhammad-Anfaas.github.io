@@ -1,4 +1,4 @@
-<img width="625" height="347" alt="image" src="https://github.com/user-attachments/assets/4c33ebde-85d7-4a64-bd73-deb11da7e1cb" />---
+
 date: '2026-08-04T09:32:27+05:00'
 draft: true
 title: 'Multi Threading'
